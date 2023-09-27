@@ -2,10 +2,10 @@
  * Will take in a .txt file of a Java, parse through the methods and determine if they are syntactically correct.
  * If the methods don't follow correct syntax, this class will fix it.
  */
-public class methodAnalyzer {
+public class MethodAnalyzer {
     private String fileName;
 
-    public methodAnalyzer(String fileName) {
+    public MethodAnalyzer(String fileName) {
         this.fileName = fileName;
     }
 
@@ -13,6 +13,6 @@ public class methodAnalyzer {
         return fileName;
     }
 
-
+    //need to create a method that uses the ReadFile class from Megan to
 
 }
