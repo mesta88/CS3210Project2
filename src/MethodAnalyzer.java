@@ -8,11 +8,9 @@ import java.io.IOException;
  */
 public class MethodAnalyzer {
     private File fileName;
-//    private String contents;
 
-    public MethodAnalyzer(File fileName/*, String contents*/) {
+    public MethodAnalyzer(File fileName) {
         this.fileName = fileName;
-//        this.contents = contents;
     }
 
     public File getFileName() {
@@ -23,22 +21,16 @@ public class MethodAnalyzer {
         this.fileName = fileName;
     }
 
-//    public String getContents() {
-//        return contents;
-//    }
-//
-//    public void setContents(String contents) {
-//        this.contents = contents;
-//    }
+
 
     //need to create a method that uses DecisionAnalyzer and LoopAnalyzer to iterate through and make sure that
     //methods from the File read in are implemented correctly
     public void analyzer(File fileName){
         try {
             FileReader reader = new FileReader(fileName);
-        }catch (IOException e){
 
-        }
+
+        }catch (IOException e){}
     }
 
     //takes the contents from the analyzer method and does any corrections that might be needed
