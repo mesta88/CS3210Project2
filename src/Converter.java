@@ -35,5 +35,14 @@ public class Converter {
         } catch (IOException e) {
             // do nothing on exception
         }
+
+        //run the methodAnalyzer/DecisionAnalyzer/LoopAnalyzer
+        MethodAnalyzer analyzer = new MethodAnalyzer(destinationFile);
+        analyzer.analyzer(destinationFile);
+        analyzer.corrector(destinationFile);
+        //run the publicCounter
+
+        //after this, it will need to append the changes made by the MethodAnalyzer/other classes
+        //as well as append the counter at the end of the file
     }
 }
