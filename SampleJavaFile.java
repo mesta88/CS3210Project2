@@ -10,6 +10,7 @@ public class SampleJavaFile {
 
     public void cheers(String cheer) {
         System.out.println(cheer);
+    }
 
 
     public static void greet(String name) {
