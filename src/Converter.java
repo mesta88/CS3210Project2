@@ -1,3 +1,4 @@
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
@@ -10,14 +11,11 @@ import java.nio.file.Paths;
 
 public class Converter {
 
-    private static final String FILE_PATH =
-            "SampleJavaFile.java";
-
     // java file path is first arg, path to new text file is second arg; so args must = 2.
     // for example, to run this program, you would use the command (in terminal or command prompt)
     // "java Converter /path/to/java/file /path/to/new/text/file"
     // if sample java file is in same directory as this program, just use "java Converter (file.java) output.txt"
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length != 2) {
             return;
         }
@@ -44,16 +42,24 @@ public class Converter {
             // do nothing on exception
         }
 
-        CompilationUnit cu = StaticJavaParser.parse(Files.newInputStream(Paths.get(FILE_PATH)));
+        //Used to create an AST then calls the analyzers to check/correct the javaFile
+        try {
+            CompilationUnit cu = JavaParseUtility.parseJavaFile(sourceFile);
+            //run the methodAnalyzer/DecisionAnalyzer/LoopAnalyzer
+            MethodAnalyzer methodAnalyzer = new MethodAnalyzer(cu);
+            methodAnalyzer.methodSyntaxAnalyzer();
 
-        //run the methodAnalyzer/DecisionAnalyzer/LoopAnalyzer
-        //MethodAnalyzer analyzer = new MethodAnalyzer(sourceFile);
-        //analyzer.analyzer(sourceFile);
-        //analyzer.corrector(sourceFile);
 
-        //run the publicCounter
-        //PublicCounter counter = new PublicCounter(sourceFile);
+            //LoopAnalyzer loopAnalyzer = new LoopAnalyzer(cu);
+            //DecisionAnalyzer decisionAnalyzer = new DecisionAnalyzer(cu);
 
+            //counts how many times public appears in the provided file
+            PublicCounter counter = new PublicCounter(cu);
+            int count = counter.countPublicModifiers();
+            System.out.println("Number of public modifiers:" + count);
+        }catch (IOException ex){
+            System.out.println("Could not find file " + sourceFile);
+        }
 
         //after this, it will need to append the changes made by the MethodAnalyzer/other classes
         //as well as append the counter at the end of the file

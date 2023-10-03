@@ -1,13 +1,26 @@
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.AccessSpecifier;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import javassist.compiler.ast.Keyword;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class used for counting how many times the keyword "public" is found in the file parsed.
  */
 public class PublicCounter {
     private File fileName;
+    private CompilationUnit cu;
 
-    public PublicCounter(File fileName) {
-        this.fileName = fileName;
+    public PublicCounter(CompilationUnit cu) {
+        this.cu = cu;
     }
 
     public File getFileName() {
@@ -18,16 +31,28 @@ public class PublicCounter {
         this.fileName = fileName;
     }
 
-    /*takes in the fileName, then using JavaParser, goes through to check for the keyword public
-    incrementing as it goes through.
-     */
-    public int counter(File fileName){
-        int publicCounter = 0;
+    public int countPublicModifiers() {
+        AtomicInteger publicCount = new AtomicInteger(0);
+        VoidVisitorAdapter<Void> visitor = new VoidVisitorAdapter<Void>() {
+            //Checks for public used before class/interface declarations
+            @Override
+            public void visit(ClassOrInterfaceDeclaration pub, Void arg) {
+                if (pub.isPublic()) {
+                    publicCount.incrementAndGet();
+                }
+                super.visit(pub, arg);
+            }
 
-
-
-
-
-        return publicCounter;
+            //Checks for public used before method declaration
+            @Override
+            public void visit(MethodDeclaration pub, Void arg) {
+                if (pub.isPublic()) {
+                    publicCount.incrementAndGet();
+                }
+                super.visit(pub, arg);
+            }
+        };
+        visitor.visit(cu, null);
+        return publicCount.get();
     }
 }
