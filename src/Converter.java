@@ -1,13 +1,9 @@
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Converter {
 
@@ -46,6 +42,11 @@ public class Converter {
         try {
             CompilationUnit cu = JavaParseUtility.parseJavaFile(sourceFile);
             //run the methodAnalyzer/DecisionAnalyzer/LoopAnalyzer
+            NestedMethodDetector nestedMethodDectector = new NestedMethodDetector();
+            nestedMethodDectector.visit(cu, null);
+            if(nestedMethodDectector.hasNestedMethods()){
+                nestedMethodDectector.fixNestedMethods(cu);
+            }
             MethodAnalyzer methodAnalyzer = new MethodAnalyzer(cu);
             methodAnalyzer.methodSyntaxAnalyzer();
 
@@ -56,7 +57,7 @@ public class Converter {
             //counts how many times public appears in the provided file
             PublicCounter counter = new PublicCounter(cu);
             int count = counter.countPublicModifiers();
-            System.out.println("Number of public modifiers:" + count);
+            System.out.println("Number of public modifiers: " + count);
         }catch (IOException ex){
             System.out.println("Could not find file " + sourceFile);
         }

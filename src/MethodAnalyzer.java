@@ -34,8 +34,10 @@ public class MethodAnalyzer {
 //    }
 
 
-    //analyzes the syntax provided from the AST created by CompilationUnit
-    //currently only corrects missing { or }
+    /**
+     * analyzes the syntax provided from the AST created by CompilationUnit
+     */
+
     public void methodSyntaxAnalyzer() {
         VoidVisitorAdapter<Void> visitor = new VoidVisitorAdapter<>() {
             @Override
