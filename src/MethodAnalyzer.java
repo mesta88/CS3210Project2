@@ -20,7 +20,6 @@ public class MethodAnalyzer {
     //private static final String FILE_PATH = "SampleJavaFile.java";
     //private File fileName;
     private CompilationUnit cu;
-
     public MethodAnalyzer(CompilationUnit cu) {
         this.cu = cu;
     }
@@ -37,7 +36,6 @@ public class MethodAnalyzer {
     /**
      * analyzes the syntax provided from the AST created by CompilationUnit
      */
-
     public void methodSyntaxAnalyzer() {
         VoidVisitorAdapter<Void> visitor = new VoidVisitorAdapter<>() {
             @Override
@@ -50,6 +48,19 @@ public class MethodAnalyzer {
         };
 
         visitor.visit(cu, null);
+    }
+
+    /**
+     * Takes in a CompilationUnit, checks it for errors then corrects them.
+     *
+     */
+    public void methodSyntaxCorrector(){
+        try{
+            CompilationUnit cu = new CompilationUnit();
+
+        }catch (ParseProblemException ex){
+
+        }
     }
 }
 

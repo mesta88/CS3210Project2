@@ -42,13 +42,14 @@ public class Converter {
         try {
             CompilationUnit cu = JavaParseUtility.parseJavaFile(sourceFile);
             //run the methodAnalyzer/DecisionAnalyzer/LoopAnalyzer
-            NestedMethodDetector nestedMethodDectector = new NestedMethodDetector();
-            nestedMethodDectector.visit(cu, null);
-            if(nestedMethodDectector.hasNestedMethods()){
-                nestedMethodDectector.fixNestedMethods(cu);
-            }
+//            NestedMethodDetector nestedMethodDectector = new NestedMethodDetector();
+//            nestedMethodDectector.visit(cu, null);
+//            if(nestedMethodDectector.hasNestedMethods()){
+//                nestedMethodDectector.fixNestedMethods(cu);
+//            }
             MethodAnalyzer methodAnalyzer = new MethodAnalyzer(cu);
             methodAnalyzer.methodSyntaxAnalyzer();
+            methodAnalyzer.methodSyntaxCorrector();
 
 
             //LoopAnalyzer loopAnalyzer = new LoopAnalyzer(cu);

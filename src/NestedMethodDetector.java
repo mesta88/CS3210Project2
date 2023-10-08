@@ -54,7 +54,7 @@ public class NestedMethodDetector extends VoidVisitorAdapter<Void> {
                         nestedMethod.remove();
                         //adds the same method(nested) to the class after OG method
                         method.getParentNode().ifPresent(parent -> {
-                            parent.addMember(nestedMethod);
+                            nestedMethod.clone();
                         });
                     }
                 }
