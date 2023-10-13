@@ -4,6 +4,7 @@ import com.github.javaparser.ast.AccessSpecifier;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import javassist.compiler.ast.Keyword;
@@ -37,6 +38,15 @@ public class PublicCounter {
             //Checks for public used before class/interface declarations
             @Override
             public void visit(ClassOrInterfaceDeclaration pub, Void arg) {
+                if (pub.isPublic()) {
+                    publicCount.incrementAndGet();
+                }
+                super.visit(pub, arg);
+            }
+
+            //Check for public used before constructor declarations
+            @Override
+            public void visit(ConstructorDeclaration pub, Void arg){
                 if (pub.isPublic()) {
                     publicCount.incrementAndGet();
                 }
